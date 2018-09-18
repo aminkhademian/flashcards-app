@@ -11,9 +11,14 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#3ed66f',
-      alignItems: 'center',
-      padding: 15,
-      borderRadius: 3
+    alignItems: 'center',
+    padding: 15,
+    borderRadius: 3,
+    elevation: 4,
+    shadowOpacity: 0.75,
+    shadowRadius: 3,
+    shadowColor: '#3ed66f',
+    shadowOffset: { height: 3, width: 0 },
   },
   buttonText: {
     color: "#fff"
@@ -36,7 +41,7 @@ class FlashCards extends React.Component {
           underlayColor="#fff"
         >
           <View style={styles.button}>
-              <Text style={styles.buttonText}>create a new deck</Text>
+            <Text style={styles.buttonText}>create a new deck</Text>
           </View>
         </TouchableHighlight>
       </View>

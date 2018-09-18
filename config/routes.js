@@ -21,6 +21,7 @@ export const Root = createStackNavigator({
     screen: CreateDeck,
     navigationOptions: {
       title: 'New Deck',
+      headerTransparent: true,
       headerStyle
     }
   }
