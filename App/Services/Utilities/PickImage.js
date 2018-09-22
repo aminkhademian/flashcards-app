@@ -1,7 +1,7 @@
 import { ImagePicker, Permissions } from "expo";
 
 const pickImage = async callback => {
-  const { status } = await Permissions.askAsync(Permissions.CAMERA);
+  const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
   if (status !== "granted") {
     console.warn("Permission to access camera was denied");
   }
