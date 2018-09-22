@@ -1,10 +1,13 @@
 import React from 'react'
 import { View, Text, FlatList, StyleSheet, TouchableHighlight, AsyncStorage } from 'react-native'
 import Entypo from '@expo/vector-icons/Entypo'
+import DecksList from 'App/Components/Decks/List';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 8
+    marginHorizontal: 12,
+    marginVertical: 8
   },
   decks: {
     flex: 1
@@ -53,10 +56,8 @@ class FlashCards extends React.Component {
       <View style={styles.container}>
         <View style={styles.decks}>
           {decks.length > 0 ? (
-            <FlatList
-              data={decks}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) => <Text>{item.id}</Text>}
+            <DecksList
+              decks={decks}
             />
           ) : (
             <View style={styles.emptyContainer}>
@@ -67,10 +68,11 @@ class FlashCards extends React.Component {
           )}
         </View>
         <TouchableHighlight
+          style={styles.button}
           onPress={() => this.props.navigation.navigate('CreateDeck')}
-          underlayColor="#fff"
+          underlayColor="#3dce6c"
         >
-          <View style={styles.button}>
+          <View>
             <Text style={styles.buttonText}>create a new deck</Text>
           </View>
         </TouchableHighlight>
