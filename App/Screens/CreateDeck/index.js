@@ -3,6 +3,7 @@ import { AsyncStorage, View, Text, ScrollView, Keyboard, TouchableWithoutFeedbac
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import MaterialCommunity from '@expo/vector-icons/MaterialCommunityIcons'
 import PickImage from 'App/Services/Utilities/PickImage'
+import UUID from "uuid/v4"
 
 const { width, height } = Dimensions.get("window")
 
@@ -81,7 +82,7 @@ class CreateDeck extends React.Component {
     if (!newDeck) {
       newDeck = []
     }
-    const deckToBeSaved = {image, title, description}
+    const deckToBeSaved = { image, title, description, id: UUID()}
     newDeck.push(deckToBeSaved)
     await AsyncStorage.setItem("flashCards", JSON.stringify(newDeck))
       .then(() => {
