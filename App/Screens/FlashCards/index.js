@@ -2,6 +2,9 @@ import React from 'react'
 import { View, Text, FlatList, StyleSheet, TouchableHighlight, AsyncStorage } from 'react-native'
 import Entypo from '@expo/vector-icons/Entypo'
 import DecksList from 'App/Components/Decks/List';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { addDeckToState } from 'App/Store/decks/actions'
 
 const styles = StyleSheet.create({
   container: {
@@ -43,15 +46,12 @@ const styles = StyleSheet.create({
 })
 
 class FlashCards extends React.Component {
-  state = {
-    decks: []
-  }
-  async componentDidMount() {
+  async componentDidMount() {  
     const decks = await AsyncStorage.getItem("flashCards")
-    if (decks) this.setState({ decks: JSON.parse(decks) })
+    if (decks) this.props.addDeckToState(JSON.parse(decks))
   }
   render() {
-    const { decks } = this.state
+    const { decks } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.decks}>
@@ -80,5 +80,16 @@ class FlashCards extends React.Component {
     )
   }
 }
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      addDeckToState
+    },
+    dispatch
+  );
 
-export default FlashCards
+const mapStateToProps = state => ({
+  decks: state.decks.list
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlashCards)  

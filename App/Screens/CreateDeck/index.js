@@ -3,6 +3,9 @@ import { AsyncStorage, View, Text, ScrollView, Keyboard, TouchableWithoutFeedbac
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import MaterialCommunity from '@expo/vector-icons/MaterialCommunityIcons'
 import PickImage from 'App/Services/Utilities/PickImage'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { addDeckToState } from 'App/Store/decks/actions'
 import UUID from "uuid/v4"
 
 const { width, height } = Dimensions.get("window")
@@ -75,7 +78,6 @@ class CreateDeck extends React.Component {
     this.setState({[name]: text})
   }
   createDeck = async () => {
-    const { navigation } = this.props;
     const { image, title, description } = this.state
     const existingFlashCards = await AsyncStorage.getItem("flashCards")
     let newDeck = JSON.parse(existingFlashCards);
@@ -86,6 +88,7 @@ class CreateDeck extends React.Component {
     newDeck.push(deckToBeSaved)
     await AsyncStorage.setItem("flashCards", JSON.stringify(newDeck))
       .then(() => {
+        this.props.addDeckToState(newDeck)
         this.props.navigation.goBack()
       })
       .catch(() => {
@@ -149,4 +152,11 @@ class CreateDeck extends React.Component {
   }
 }
 
-export default CreateDeck
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      addDeckToState
+    },
+    dispatch
+  );
+export default connect(null, mapDispatchToProps)(CreateDeck)
