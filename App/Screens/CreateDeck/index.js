@@ -84,7 +84,7 @@ class CreateDeck extends React.Component {
     if (!newDeck) {
       newDeck = []
     }
-    const deckToBeSaved = { image, title, description, id: UUID()}
+    const deckToBeSaved = { cards: [], image, title, description, id: UUID()}
     newDeck.push(deckToBeSaved)
     await AsyncStorage.setItem("flashCards", JSON.stringify(newDeck))
       .then(() => {

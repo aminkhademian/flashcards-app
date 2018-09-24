@@ -49,14 +49,14 @@ const styles = StyleSheet.create({
 
 class DecksList extends React.Component {
   render(){
-    const { decks } = this.props
+    const { decks, onShowDeck } = this.props
     return (
       <FlatList
         data={decks}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <View style={styles.shadowIos}>
-            <TouchableOpacity onPress={() => console.log("are...")} style={styles.container}>
+            <TouchableOpacity onPress={() => onShowDeck(item)} style={styles.container}>
               <View style={styles.textContainer}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text numberOfLines={1} style={styles.description}>{item.description}</Text>

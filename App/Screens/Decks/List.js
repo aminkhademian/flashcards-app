@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 12,
-    marginVertical: 8
+    marginTop: 75,
+    marginBottom: 8
   },
   decks: {
     flex: 1
@@ -58,12 +59,13 @@ class FlashCards extends React.Component {
           {decks.length > 0 ? (
             <DecksList
               decks={decks}
+              onShowDeck={item => this.props.navigation.navigate("Deck", item)}
             />
           ) : (
             <View style={styles.emptyContainer}>
               <Entypo name="archive" size={120} color="#999" />
               <Text style={styles.nothingText}>NOTHING!!</Text>
-              <Text style={styles.emptyText}>you have no deck yet</Text>
+              <Text style={styles.emptyText}>you have no card yet</Text>
             </View>
           )}
         </View>
