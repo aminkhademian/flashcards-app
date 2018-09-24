@@ -1,4 +1,4 @@
-import { takeLatest, fork, put, call } from "redux-saga/effects";
+import { takeLatest, fork, put } from "redux-saga/effects";
 
 import {
   ADD_DECK_TO_STATE,

@@ -8,8 +8,8 @@ import rootSaga from "App/Store/saga";
 import rootReducer from "App/Store/reducer";
 
 const persistConfig = {
-  key: 'root',
-  storage,
+  key: "root",
+  storage
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -21,8 +21,8 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(...middlewares))
 );
 
-const persistor = persistStore(store)
+const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 
-export {store, persistor};
+export { store, persistor };

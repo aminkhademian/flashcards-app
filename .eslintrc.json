@@ -1,8 +1,17 @@
 {
+  "parser": "babel-eslint",
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "settings": {
     "import/resolver": {
       "babel-module": {}
     }
+  },
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ]
   }
 }

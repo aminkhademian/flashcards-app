@@ -10,10 +10,23 @@
     "eject": "expo eject",
     "postinstall": "rndebugger-open"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./**/*.js": [
+      "eslint --fix .",
+      "git add"
+    ]
+  },
   "dependencies": {
+    "@expo/vector-icons": "^6.3.1",
     "babel-plugin-module-resolver": "^3.1.1",
     "expo": "^30.0.0",
     "lodash": "^4.17.11",
+    "prop-types": "^15.6.2",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
     "react-native-debugger-open": "^0.3.17",
@@ -26,6 +39,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "babel-eslint": "^9.0.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.1.0",
@@ -34,6 +48,8 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.11.1",
+    "husky": "^1.0.0-rc.15",
+    "lint-staged": "^7.3.0",
     "prettier": "^1.14.3"
   }
 }
