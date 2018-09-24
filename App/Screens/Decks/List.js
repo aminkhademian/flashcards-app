@@ -48,10 +48,6 @@ const styles = StyleSheet.create({
 })
 
 class FlashCards extends React.Component {
-  async componentDidMount() {  
-    const decks = await AsyncStorage.getItem("flashCards")
-    if (decks) this.props.addDeckToState(JSON.parse(decks))
-  }
   render() {
     const { decks } = this.props
     return (
