@@ -9,7 +9,7 @@ import { addDeckToState } from 'App/Store/decks/actions'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 12,
+    marginHorizontal: 8,
     marginTop: 75,
     marginBottom: 8
   },
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     shadowColor: '#3ed66f',
     shadowOffset: { height: 3, width: 0 },
+    marginHorizontal: 4
   },
   buttonText: {
     color: "#fff"

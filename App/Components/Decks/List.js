@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     shadowColor: '#333',
     shadowOffset: { height: 3, width: 0 },
+    paddingHorizontal: 4,
   },
   textContainer: {
     paddingHorizontal: 20,
@@ -53,7 +54,9 @@ class DecksList extends React.Component {
     return (
       <FlatList
         data={decks}
+        style={{ marginBottom: 8 }}
         keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.shadowIos}>
             <TouchableOpacity onPress={() => onShowDeck(item)} style={styles.container}>
@@ -66,7 +69,7 @@ class DecksList extends React.Component {
                   <MaterialCommunity size={24} name="cards-outline" color="#333" />
                   <Text style={styles.countCards}>0</Text>
                 </View>
-                <Image style={styles.image} source={{uri: item.image, width: 90, height: 90}} />
+                <Image style={styles.image} source={{ uri: item.image, width: 90, height: 90 }} />
               </View>
             </TouchableOpacity>
           </View>
