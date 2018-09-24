@@ -1,10 +1,9 @@
 import React from 'react'
-import { Alert, AsyncStorage, View, Text, ScrollView, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native'
+import { Alert, View, Text, ScrollView, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native'
 import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons"
-import filter from 'lodash/filter'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addDeckToState } from 'App/Store/decks/actions'
+import { removeDeck } from 'App/Store/decks/actions'
 
 const { width, height } = Dimensions.get("window")
 
@@ -100,20 +99,8 @@ class ShowDeck extends React.Component {
   }
   removeDeck = async () => {
     const { id } = this.props
-    const existingFlashCards = await AsyncStorage.getItem("flashCards")
-    let newDeck = JSON.parse(existingFlashCards);
-    if (!newDeck) {
-      newDeck = []
-    }
-    const decksToBeSaved = filter(newDeck, deck => deck.id !== id)
-    await AsyncStorage.setItem("flashCards", JSON.stringify(decksToBeSaved))
-      .then(() => {
-        this.props.addDeckToState(decksToBeSaved)
-        this.props.navigation.goBack()
-      })
-      .catch(() => {
-        console.warn("There was an error saving the deck")
-      })
+    this.props.removeDeck(id)
+    this.props.navigation.goBack()
   }
   render() {
     const { image, cards, navigation } = this.props
@@ -159,7 +146,7 @@ class ShowDeck extends React.Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      addDeckToState
+      removeDeck
     },
     dispatch
   );

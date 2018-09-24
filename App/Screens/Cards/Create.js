@@ -5,7 +5,6 @@ import MaterialCommunity from '@expo/vector-icons/MaterialCommunityIcons'
 import PickImage from 'App/Services/Utilities/PickImage'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addDeckToState } from 'App/Store/decks/actions'
 import UUID from "uuid/v4"
 
 const { width, height } = Dimensions.get("window")
@@ -88,7 +87,7 @@ class CreateDeck extends React.Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      addDeckToState
+      
     },
     dispatch
   );

@@ -1,21 +1,34 @@
 import { takeLatest, fork, put, call } from "redux-saga/effects";
 
 import {
-  ADD_DECK_TO_STATE,
-  ADD_DECK_TO_STATE_SUCCEEDED
+  ADD_DECK,
+  ADD_DECK_SUCCEEDED,
+  REMOVE_DECK,
+  REMOVE_DECK_SUCCEEDED,
 } from "App/Store/decks/actions";
 
-function* addDeckToState({ payload }) {
+function* addDeck({ payload }) {
   yield put({
-    type: ADD_DECK_TO_STATE_SUCCEEDED,
+    type: ADD_DECK_SUCCEEDED,
     payload
   });
 }
 
-function* watchAddDeckToState() {
-  yield takeLatest(ADD_DECK_TO_STATE, addDeckToState);
+function* removeDeck({ payload }) {
+  yield put({
+    type: REMOVE_DECK_SUCCEEDED,
+    payload
+  });
+}
+
+function* watchAddDeck() {
+  yield takeLatest(ADD_DECK, addDeck);
+}
+function* watchRemoveDeck() {
+  yield takeLatest(REMOVE_DECK, removeDeck);
 }
 
 export default function* decksSagas() {
-  yield fork(watchAddDeckToState);
+  yield fork(watchAddDeck);
+  yield fork(watchRemoveDeck);
 }
