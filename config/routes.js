@@ -3,7 +3,8 @@ import { Platform, TouchableWithoutFeedback, Text } from 'react-native'
 import { createStackNavigator } from 'react-navigation'
 import DecksList from 'App/Screens/Decks/List'
 import ShowDeck from 'App/Screens/Decks/Show'
-import CreateDeck from 'App/Screens/CreateDeck'
+import CreateDeck from 'App/Screens/Decks/Create'
+import CreateCard from 'App/Screens/Cards/Create'
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 
 const headerStyle = {
@@ -38,6 +39,14 @@ export const Root = createStackNavigator({
     screen: CreateDeck,
     navigationOptions: {
       title: 'New Deck',
+      headerTransparent: true,
+      headerStyle
+    }
+  },
+  CreateCard: {
+    screen: CreateCard,
+    navigationOptions: {
+      title: 'New Card',
       headerTransparent: true,
       headerStyle
     }

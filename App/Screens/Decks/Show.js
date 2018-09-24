@@ -116,7 +116,7 @@ class ShowDeck extends React.Component {
       })
   }
   render() {
-    const { image, cards } = this.props
+    const { image, cards, navigation } = this.props
     return (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
@@ -140,7 +140,7 @@ class ShowDeck extends React.Component {
           </View>
           <View style={styles.buttonContainer}>
             <View style={styles.addCardsButton}>
-              <TouchableOpacity onPress={() => console.log("new cards")}>
+              <TouchableOpacity onPress={() => navigation.navigate("CreateCard")}>
                   <MaterialCommunity name="cards-outline" size={40} color="#999" />
               </TouchableOpacity>
               <Text style={styles.newText}>new</Text>
