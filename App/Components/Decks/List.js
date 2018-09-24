@@ -1,6 +1,15 @@
-import React from 'react'
-import { FlatList, Text, StyleSheet, TouchableOpacity, Image, View } from 'react-native'
-import MaterialCommunity from '@expo/vector-icons/MaterialCommunityIcons'
+import React from "react";
+import {
+  FlatList,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  View
+} from "react-native";
+import PropTypes from "prop-types";
+
+import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
 
 const styles = StyleSheet.create({
   container: {
@@ -12,14 +21,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 5,
     overflow: "hidden",
-    elevation: 3,    
+    elevation: 3
   },
   shadowIos: {
     shadowOpacity: 0.15,
     shadowRadius: 3,
-    shadowColor: '#333',
+    shadowColor: "#333",
     shadowOffset: { height: 3, width: 0 },
-    paddingHorizontal: 4,
+    paddingHorizontal: 4
   },
   textContainer: {
     paddingHorizontal: 20,
@@ -34,49 +43,64 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: "#999",
-    flexWrap: 'nowrap'
+    flexWrap: "nowrap"
   },
   rowCenter: {
     flexDirection: "row",
     alignItems: "center"
   },
-  countCards: { 
+  countCards: {
     margin: 3
   },
   image: {
     marginLeft: 15
   }
-})
+});
 
-class DecksList extends React.Component {
-  render(){
-    const { decks, onShowDeck } = this.props
-    return (
-      <FlatList
-        data={decks}
-        style={{ marginBottom: 8 }}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View style={styles.shadowIos}>
-            <TouchableOpacity onPress={() => onShowDeck(item)} style={styles.container}>
-              <View style={styles.textContainer}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text numberOfLines={1} style={styles.description}>{item.description}</Text>
-              </View>
+const DecksList = props => {
+  const { decks, onShowDeck } = props;
+  return (
+    <FlatList
+      data={decks}
+      style={{ marginBottom: 8 }}
+      keyExtractor={item => item.id}
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item }) => (
+        <View style={styles.shadowIos}>
+          <TouchableOpacity
+            onPress={() => onShowDeck(item)}
+            style={styles.container}
+          >
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text numberOfLines={1} style={styles.description}>
+                {item.description}
+              </Text>
+            </View>
+            <View style={styles.rowCenter}>
               <View style={styles.rowCenter}>
-                <View style={styles.rowCenter}>
-                  <MaterialCommunity size={24} name="cards-outline" color="#333" />
-                  <Text style={styles.countCards}>0</Text>
-                </View>
-                <Image style={styles.image} source={{ uri: item.image, width: 90, height: 90 }} />
+                <MaterialCommunity
+                  size={24}
+                  name="cards-outline"
+                  color="#333"
+                />
+                <Text style={styles.countCards}>0</Text>
               </View>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-    )
-  }
-}
+              <Image
+                style={styles.image}
+                source={{ uri: item.image, width: 90, height: 90 }}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+    />
+  );
+};
 
-export default DecksList
+DecksList.propTypes = {
+  decks: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onShowDeck: PropTypes.func.isRequired
+};
+
+export default DecksList;

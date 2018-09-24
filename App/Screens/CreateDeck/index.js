@@ -1,57 +1,69 @@
-import React from 'react'
-import { AsyncStorage, View, Text, ScrollView, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, StyleSheet, TouchableHighlight, TouchableOpacity, Dimensions, Image, TextInput } from 'react-native'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
-import MaterialCommunity from '@expo/vector-icons/MaterialCommunityIcons'
-import PickImage from 'App/Services/Utilities/PickImage'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { addDeckToState } from 'App/Store/decks/actions'
-import UUID from "uuid/v4"
+import React from "react";
+import {
+  AsyncStorage,
+  View,
+  Text,
+  Keyboard,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+  TextInput
+} from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
+import PickImage from "App/Services/Utilities/PickImage";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { addDeckToState } from "App/Store/decks/actions";
+import UUID from "uuid/v4";
 
-const { width, height } = Dimensions.get("window")
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center"
   },
   imageContainer: {
     position: "relative",
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
-    width: width,
-    height: width * 4/5,
+    width,
+    height: (width * 4) / 5
   },
-  image:{
+  image: {
     position: "absolute",
     top: 0,
-    left:0,
-    width: width,
-    height: width * 4 / 5,
+    left: 0,
+    width,
+    height: (width * 4) / 5
   },
   imageButton: {
     marginTop: -20,
     borderRadius: 50,
     height: 40,
     width: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#3ed66f',   
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#3ed66f",
     elevation: 4,
     shadowOpacity: 0.75,
     shadowRadius: 3,
-    shadowColor: '#3ed66f',
-    shadowOffset: { height: 3, width: 0 },
+    shadowColor: "#3ed66f",
+    shadowOffset: { height: 3, width: 0 }
   },
   imageButtonText: {
-    color: '#fff'
+    color: "#fff"
   },
   inputContainer: {
     flex: 1,
     width: "90%",
-    marginTop: 30,
+    marginTop: 30
   },
   textInput: {
     width: "100%",
@@ -66,51 +78,55 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 20
   }
-})
+});
 
 class CreateDeck extends React.Component {
   state = {
     image: null,
     title: null,
     description: null
-  }
+  };
+
   handleChangeTextInput = (name, text) => {
-    this.setState({[name]: text})
-  }
+    this.setState({ [name]: text });
+  };
+
   createDeck = async () => {
-    const { image, title, description } = this.state
-    const existingFlashCards = await AsyncStorage.getItem("flashCards")
+    const { image, title, description } = this.state;
+    const existingFlashCards = await AsyncStorage.getItem("flashCards");
     let newDeck = JSON.parse(existingFlashCards);
     if (!newDeck) {
-      newDeck = []
+      newDeck = [];
     }
-    const deckToBeSaved = { cards: [], image, title, description, id: UUID()}
-    newDeck.push(deckToBeSaved)
+    const deckToBeSaved = { cards: [], image, title, description, id: UUID() };
+    newDeck.push(deckToBeSaved);
+    const { addDeckToStateAction, navigation } = this.props;
     await AsyncStorage.setItem("flashCards", JSON.stringify(newDeck))
       .then(() => {
-        this.props.addDeckToState(newDeck)
-        this.props.navigation.goBack()
+        addDeckToStateAction(newDeck);
+        navigation.goBack();
       })
       .catch(() => {
-        console.warn("There was an error saving the deck")
-      })
-  }
+        console.warn("There was an error saving the deck");
+      });
+  };
+
   render() {
-    const { image, title, description } = this.state
-    const disabledCreateDeckButton = (!image || !title || !description)
+    const { image, title, description } = this.state;
+    const disabledCreateDeckButton = !image || !title || !description;
     return (
-      <TouchableWithoutFeedback
-        onPress={() => Keyboard.dismiss()}
-      >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <FontAwesome name="image" size={85} color="#ececec" />
             {image && <Image style={styles.image} source={{ uri: image }} />}
           </View>
           <TouchableHighlight
-            onPress={() => PickImage(image => {
-              this.setState({ image })
-            })}
+            onPress={() =>
+              PickImage(img => {
+                this.setState({ image: img });
+              })
+            }
             underlayColor="#3dce6c"
             style={styles.imageButton}
           >
@@ -131,32 +147,45 @@ class CreateDeck extends React.Component {
               placeholder="Description"
               underlineColorAndroid="transparent"
               style={styles.textInput}
-              onChangeText={text => this.handleChangeTextInput("description", text)}
+              onChangeText={text =>
+                this.handleChangeTextInput("description", text)
+              }
             />
           </View>
           <TouchableOpacity
             disabled={disabledCreateDeckButton}
-            {...(disabledCreateDeckButton ? {style: {
-              opacity: 0.2
-            }} : {})}
+            {...(disabledCreateDeckButton
+              ? {
+                  style: {
+                    opacity: 0.2
+                  }
+                }
+              : {})}
             onPress={() => this.createDeck()}
           >
             <View style={styles.createButton}>
-              <MaterialCommunity name="chevron-double-left" size={35} color="#333" />
+              <MaterialCommunity
+                name="chevron-double-left"
+                size={35}
+                color="#333"
+              />
               <Text>Create Deck</Text>
             </View>
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      addDeckToState
+      addDeckToStateAction: addDeckToState
     },
     dispatch
   );
-export default connect(null, mapDispatchToProps)(CreateDeck)
+export default connect(
+  null,
+  mapDispatchToProps
+)(CreateDeck);
