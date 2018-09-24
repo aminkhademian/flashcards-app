@@ -92,7 +92,7 @@ class CreateDeck extends React.Component {
         this.props.navigation.goBack()
       })
       .catch(() => {
-        console.warn("There was an error saving the product")
+        console.warn("There was an error saving the deck")
       })
   }
   render() {

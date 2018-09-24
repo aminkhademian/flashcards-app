@@ -1,6 +1,10 @@
 import React from 'react'
-import { View, Text, ScrollView, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native'
+import { Alert, AsyncStorage, View, Text, ScrollView, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native'
 import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons"
+import filter from 'lodash/filter'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { addDeckToState } from 'App/Store/decks/actions'
 
 const { width, height } = Dimensions.get("window")
 
@@ -82,6 +86,35 @@ const styles = StyleSheet.create({
 })
 
 class ShowDeck extends React.Component {
+  confirmation = () => {
+    const { title } = this.props
+    Alert.alert(
+      'Delete Deck',
+      `Are you sure delete ${title} ?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Ok', onPress: () => this.removeDeck() },
+      ],
+      { cancelable: false }
+    )
+  }
+  removeDeck = async () => {
+    const { id } = this.props
+    const existingFlashCards = await AsyncStorage.getItem("flashCards")
+    let newDeck = JSON.parse(existingFlashCards);
+    if (!newDeck) {
+      newDeck = []
+    }
+    const decksToBeSaved = filter(newDeck, deck => deck.id !== id)
+    await AsyncStorage.setItem("flashCards", JSON.stringify(decksToBeSaved))
+      .then(() => {
+        this.props.addDeckToState(decksToBeSaved)
+        this.props.navigation.goBack()
+      })
+      .catch(() => {
+        console.warn("There was an error saving the deck")
+      })
+  }
   render() {
     const { image, cards } = this.props
     return (
@@ -115,7 +148,7 @@ class ShowDeck extends React.Component {
           <TouchableOpacity onPress={() => console.log("play all")}>
             <MaterialCommunity name="play-circle-outline" size={40} color="#999" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log("delete deck")}>
+          <TouchableOpacity onPress={() => this.confirmation()}>
             <MaterialCommunity name="delete" size={40} color="#999" />
           </TouchableOpacity>
           </View>
@@ -123,5 +156,12 @@ class ShowDeck extends React.Component {
     )
   }
 }
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      addDeckToState
+    },
+    dispatch
+  );
 
-export default ShowDeck
+export default connect(null, mapDispatchToProps)(ShowDeck)
