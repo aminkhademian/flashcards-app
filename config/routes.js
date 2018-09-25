@@ -5,7 +5,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import DecksList from "App/Screens/Decks/List";
 import ShowDeck from "App/Screens/Decks/Show";
-import CreateDeck from "App/Screens/CreateDeck";
+import CreateDeck from "App/Screens/Decks/Create";
+import CreateCard from "App/Screens/Cards/Create";
 
 const headerStyle = {
   backgroundColor: "transparent",
@@ -40,6 +41,13 @@ export default createStackNavigator({
     navigationOptions: {
       title: "New Deck",
       headerTransparent: true,
+      headerStyle
+    }
+  },
+  CreateCard: {
+    screen: mapNavigationStateParamsToProps(CreateCard),
+    navigationOptions: {
+      title: "New Card",
       headerStyle
     }
   },

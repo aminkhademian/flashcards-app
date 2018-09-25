@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  AsyncStorage,
   View,
   Text,
   Keyboard,
@@ -17,7 +16,7 @@ import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
 import PickImage from "App/Services/Utilities/PickImage";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addDeckToState } from "App/Store/decks/actions";
+import { addDeck } from "App/Store/decks/actions";
 import UUID from "uuid/v4";
 
 const { width } = Dimensions.get("window");
@@ -92,23 +91,10 @@ class CreateDeck extends React.Component {
   };
 
   createDeck = async () => {
-    const { image, title, description } = this.state;
-    const existingFlashCards = await AsyncStorage.getItem("flashCards");
-    let newDeck = JSON.parse(existingFlashCards);
-    if (!newDeck) {
-      newDeck = [];
-    }
+    const { image, title, description, addDeckAction, navigation } = this.state;
     const deckToBeSaved = { cards: [], image, title, description, id: UUID() };
-    newDeck.push(deckToBeSaved);
-    const { addDeckToStateAction, navigation } = this.props;
-    await AsyncStorage.setItem("flashCards", JSON.stringify(newDeck))
-      .then(() => {
-        addDeckToStateAction(newDeck);
-        navigation.goBack();
-      })
-      .catch(() => {
-        console.warn("There was an error saving the deck");
-      });
+    addDeckAction(deckToBeSaved);
+    navigation.goBack();
   };
 
   render() {
@@ -181,10 +167,11 @@ class CreateDeck extends React.Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      addDeckToStateAction: addDeckToState
+      addDeckAction: addDeck
     },
     dispatch
   );
+
 export default connect(
   null,
   mapDispatchToProps

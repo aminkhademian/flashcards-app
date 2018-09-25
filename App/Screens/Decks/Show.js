@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Alert,
-  AsyncStorage,
   View,
   Text,
   StyleSheet,
@@ -10,12 +9,10 @@ import {
   TouchableOpacity
 } from "react-native";
 import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
-import filter from "lodash/filter";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
-
-import { addDeckToState } from "App/Store/decks/actions";
+import { removeDeck } from "App/Store/decks/actions";
 
 const { width, height } = Dimensions.get("window");
 
@@ -98,10 +95,10 @@ const styles = StyleSheet.create({
 
 class ShowDeck extends React.Component {
   confirmation = () => {
-    const { title } = this.props;
+    const { deck } = this.props;
     Alert.alert(
-      "Delete Deck",
-      `Are you sure delete ${title} ?`,
+      `Delete ${deck.title}?`,
+      `All cards of this deck will be removed`,
       [
         { text: "Cancel", style: "cancel" },
         { text: "Ok", onPress: () => this.removeDeck() }
@@ -111,25 +108,14 @@ class ShowDeck extends React.Component {
   };
 
   removeDeck = async () => {
-    const { id, addDeckToStateAction, navigation } = this.props;
-    const existingFlashCards = await AsyncStorage.getItem("flashCards");
-    let newDeck = JSON.parse(existingFlashCards);
-    if (!newDeck) {
-      newDeck = [];
-    }
-    const decksToBeSaved = filter(newDeck, deck => deck.id !== id);
-    await AsyncStorage.setItem("flashCards", JSON.stringify(decksToBeSaved))
-      .then(() => {
-        addDeckToStateAction(decksToBeSaved);
-        navigation.goBack();
-      })
-      .catch(() => {
-        console.warn("There was an error saving the deck");
-      });
+    const { id, removeDeckAction, navigation } = this.props;
+    removeDeckAction(id);
+    navigation.goBack();
   };
 
   render() {
-    const { image, cards } = this.props;
+    const { navigation, deck } = this.props;
+    const { image, cards, id } = deck;
     return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
@@ -153,7 +139,9 @@ class ShowDeck extends React.Component {
         </View>
         <View style={styles.buttonContainer}>
           <View style={styles.addCardsButton}>
-            <TouchableOpacity onPress={() => console.log("new cards")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("CreateCard", { id })}
+            >
               <MaterialCommunity name="cards-outline" size={40} color="#999" />
             </TouchableOpacity>
             <Text style={styles.newText}>new</Text>
@@ -175,20 +163,30 @@ class ShowDeck extends React.Component {
 }
 
 ShowDeck.propTypes = {
-  title: PropTypes.string.isRequired,
-  cards: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  image: PropTypes.string.isRequired
+  deck: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    cards: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+  }).isRequired,
+  navigation: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired
+  }).isRequired
 };
+
+const mapStateToProps = state => ({
+  deck: state.decks.current
+});
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      addDeckToStateAction: addDeckToState
+      removeDeckAction: removeDeck
     },
     dispatch
   );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ShowDeck);

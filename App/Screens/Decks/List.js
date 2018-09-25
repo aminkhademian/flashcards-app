@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 
 import DecksList from "App/Components/Decks/List";
-import { addDeckToState } from "App/Store/decks/actions";
+import { showDeck } from "App/Store/decks/actions";
 
 const styles = StyleSheet.create({
   container: {
@@ -50,14 +50,17 @@ const styles = StyleSheet.create({
 });
 
 const FlashCards = props => {
-  const { decks, navigation } = props;
+  const { decks, navigation, showDeckAction } = props;
   return (
     <View style={styles.container}>
       <View style={styles.decks}>
         {decks.length > 0 ? (
           <DecksList
             decks={decks}
-            onShowDeck={item => navigation.navigate("Deck", item)}
+            onShowDeck={item => {
+              showDeckAction(item);
+              navigation.navigate("Deck", item);
+            }}
           />
         ) : (
           <View style={styles.emptyContainer}>
@@ -66,16 +69,16 @@ const FlashCards = props => {
             <Text style={styles.emptyText}>you have no card yet</Text>
           </View>
         )}
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => navigation.navigate("CreateDeck")}
+          underlayColor="#3dce6c"
+        >
+          <View>
+            <Text style={styles.buttonText}>create a new deck</Text>
+          </View>
+        </TouchableHighlight>
       </View>
-      <TouchableHighlight
-        style={styles.button}
-        onPress={() => navigation.navigate("CreateDeck")}
-        underlayColor="#3dce6c"
-      >
-        <View>
-          <Text style={styles.buttonText}>create a new deck</Text>
-        </View>
-      </TouchableHighlight>
     </View>
   );
 };
@@ -84,20 +87,21 @@ FlashCards.propTypes = {
   decks: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+  showDeckAction: PropTypes.func.isRequired
 };
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      addDeckToState
-    },
-    dispatch
-  );
 
 const mapStateToProps = state => ({
   decks: state.decks.list
 });
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      showDeckAction: showDeck
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

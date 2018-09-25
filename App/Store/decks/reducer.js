@@ -1,4 +1,11 @@
-import { ADD_DECK_TO_STATE_SUCCEEDED } from "App/Store/decks/actions";
+import filter from "lodash/filter";
+
+import {
+  SHOW_DECK,
+  REMOVE_DECK_SUCCEEDED,
+  ADD_CARD_SUCCEEDED,
+  ADD_DECK_SUCCEEDED
+} from "App/Store/decks/actions";
 
 const initialState = {
   list: [],
@@ -6,9 +13,25 @@ const initialState = {
 };
 
 export default function(state = initialState, action) {
+  const decksList = state.list;
+  const currentDeck = state.current;
   switch (action.type) {
-    case ADD_DECK_TO_STATE_SUCCEEDED:
-      return { ...state, list: action.payload };
+    case ADD_CARD_SUCCEEDED:
+      currentDeck.cards.push(action.payload);
+      return {
+        ...state,
+        list: [...decksList],
+        current: { ...currentDeck }
+      };
+    case ADD_DECK_SUCCEEDED:
+      return { ...state, list: [...decksList, action.payload] };
+    case SHOW_DECK:
+      return { ...state, current: action.payload };
+    case REMOVE_DECK_SUCCEEDED:
+      return {
+        ...state,
+        list: filter(decksList, deck => deck.id !== action.payload)
+      };
     default:
       return state;
   }
