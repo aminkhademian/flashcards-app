@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, TouchableWithoutFeedback } from "react-native";
+import { Platform, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -58,13 +58,13 @@ export default createStackNavigator({
       headerTransparent: true,
       headerStyle,
       headerLeftContainerStyle: {
-        marginHorizontal: 16
+        paddingHorizontal: 16
       },
       headerTintColor: "white",
       headerLeft: (
-        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesome name="angle-left" size={35} color="#fff" />
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       )
     })
   }

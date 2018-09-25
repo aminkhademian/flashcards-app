@@ -97,11 +97,11 @@ class ShowDeck extends React.Component {
   confirmation = () => {
     const { deck } = this.props;
     Alert.alert(
-      `Delete ${deck.title}?`,
+      `Delete "${deck.title}"?`,
       `All cards of this deck will be removed`,
       [
         { text: "Cancel", style: "cancel" },
-        { text: "Ok", onPress: () => this.removeDeck() }
+        { text: "Ok", onPress: () => this.removeDeck(), style: "delete" }
       ],
       { cancelable: false }
     );

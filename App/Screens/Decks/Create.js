@@ -91,7 +91,8 @@ class CreateDeck extends React.Component {
   };
 
   createDeck = async () => {
-    const { image, title, description, addDeckAction, navigation } = this.state;
+    const { image, title, description } = this.state;
+    const { addDeckAction, navigation } = this.props;
     const deckToBeSaved = { cards: [], image, title, description, id: UUID() };
     addDeckAction(deckToBeSaved);
     navigation.goBack();
