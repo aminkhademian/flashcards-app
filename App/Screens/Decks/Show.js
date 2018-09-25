@@ -103,7 +103,8 @@ class ShowDeck extends React.Component {
     this.props.navigation.goBack()
   }
   render() {
-    const { image, cards, navigation } = this.props
+    const { navigation, deck } = this.props
+    const { image, cards, id } = deck
     return (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
@@ -127,7 +128,7 @@ class ShowDeck extends React.Component {
           </View>
           <View style={styles.buttonContainer}>
             <View style={styles.addCardsButton}>
-              <TouchableOpacity onPress={() => navigation.navigate("CreateCard")}>
+              <TouchableOpacity onPress={() => navigation.navigate("CreateCard", {id})}>
                   <MaterialCommunity name="cards-outline" size={40} color="#999" />
               </TouchableOpacity>
               <Text style={styles.newText}>new</Text>
@@ -143,6 +144,11 @@ class ShowDeck extends React.Component {
     )
   }
 }
+
+const mapStateToProps= state => ({
+  deck: state.decks.current
+})
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
@@ -151,4 +157,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(null, mapDispatchToProps)(ShowDeck)
+export default connect(mapStateToProps, mapDispatchToProps)(ShowDeck)

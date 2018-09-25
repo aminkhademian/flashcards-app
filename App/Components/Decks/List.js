@@ -67,7 +67,7 @@ class DecksList extends React.Component {
               <View style={styles.rowCenter}>
                 <View style={styles.rowCenter}>
                   <MaterialCommunity size={24} name="cards-outline" color="#333" />
-                  <Text style={styles.countCards}>0</Text>
+                  <Text style={styles.countCards}>{item.cards.length}</Text>
                 </View>
                 <Image style={styles.image} source={{ uri: item.image, width: 90, height: 90 }} />
               </View>

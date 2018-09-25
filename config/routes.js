@@ -44,10 +44,9 @@ export const Root = createStackNavigator({
     }
   },
   CreateCard: {
-    screen: CreateCard,
+    screen: mapNavigationStateParamsToProps(CreateCard),
     navigationOptions: {
       title: 'New Card',
-      headerTransparent: true,
       headerStyle
     }
   },

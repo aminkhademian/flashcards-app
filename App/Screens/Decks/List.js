@@ -3,6 +3,8 @@ import { View, Text, FlatList, StyleSheet, TouchableHighlight, AsyncStorage } fr
 import Entypo from '@expo/vector-icons/Entypo'
 import DecksList from 'App/Components/Decks/List';
 import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
+import { showDeck } from 'App/Store/decks/actions'
 
 const styles = StyleSheet.create({
   container: {
@@ -47,14 +49,17 @@ const styles = StyleSheet.create({
 
 class FlashCards extends React.Component {
   render() {
-    const { decks } = this.props
+    const { decks, showDeckAction } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.decks}>
           {decks.length > 0 ? (
             <DecksList
               decks={decks}
-              onShowDeck={item => this.props.navigation.navigate("Deck", item)}
+              onShowDeck={item => {
+                showDeckAction(item)
+                this.props.navigation.navigate("Deck", item)
+              }}
             />
           ) : (
             <View style={styles.emptyContainer}>
@@ -82,4 +87,12 @@ const mapStateToProps = state => ({
   decks: state.decks.list
 })
 
-export default connect(mapStateToProps)(FlashCards)  
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      showDeckAction: showDeck
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlashCards)  
