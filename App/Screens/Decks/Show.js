@@ -146,7 +146,9 @@ class ShowDeck extends React.Component {
             </TouchableOpacity>
             <Text style={styles.newText}>new</Text>
           </View>
-          <TouchableOpacity onPress={() => console.log("play all")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PlayCards", { cards })}
+          >
             <MaterialCommunity
               name="play-circle-outline"
               size={40}

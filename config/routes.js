@@ -7,8 +7,10 @@ import DecksList from "App/Screens/Decks/List";
 import ShowDeck from "App/Screens/Decks/Show";
 import CreateDeck from "App/Screens/Decks/Create";
 import CreateCard from "App/Screens/Cards/Create";
+import PlayCards from "App/Screens/Cards/Play";
 
 const headerStyle = {
+  elevation: 0,
   backgroundColor: "transparent",
   ...(Platform.OS === "ios" ? { borderBottomWidth: 0 } : {})
 };
@@ -43,6 +45,17 @@ export default createStackNavigator({
       headerTransparent: true,
       headerStyle
     }
+  },
+  PlayCards: {
+    screen: mapNavigationStateParamsToProps(PlayCards),
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.cards.length}/${
+        navigation.state.params.cards.length
+      }`,
+      mode: "modal",
+      headerTransparent: true,
+      headerStyle
+    })
   },
   CreateCard: {
     screen: mapNavigationStateParamsToProps(CreateCard),
