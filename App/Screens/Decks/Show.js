@@ -12,6 +12,7 @@ import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
+import CardsList from "App/Components/Cards/List";
 import { removeDeck } from "App/Store/decks/actions";
 
 const { width, height } = Dimensions.get("window");
@@ -128,7 +129,7 @@ class ShowDeck extends React.Component {
             <Text>Learning - 0</Text>
           </View>
           {cards.length > 0 ? (
-            <View />
+            <CardsList cards={cards} />
           ) : (
             <View style={styles.emptyContainer}>
               <MaterialCommunity name="cards-outline" size={90} color="#999" />
