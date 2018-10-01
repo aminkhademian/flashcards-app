@@ -62,6 +62,7 @@ const DecksList = props => {
   return (
     <FlatList
       data={decks}
+      extraData={props}
       style={{ marginBottom: 8 }}
       keyExtractor={item => item.id}
       showsVerticalScrollIndicator={false}
