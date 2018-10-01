@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   Animated,
+  ScrollView,
   TouchableOpacity
 } from "react-native";
 import SwipeCards from "react-native-deck-swiper";
@@ -35,12 +36,11 @@ const styles = StyleSheet.create({
     shadowColor: "#333",
     shadowOffset: { height: 3, width: 0 },
     elevation: 3,
-    margin: 10
+    margin: 10,
+    padding: 15
   },
   label: {
-    lineHeight: 400,
-    textAlign: "center",
-    fontSize: 45,
+    fontSize: 25,
     fontFamily: "System",
     color: "#333",
     backgroundColor: "transparent"
@@ -68,9 +68,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  noMoreCardsText: {
+  congratulationsText: {
     fontWeight: "bold",
     fontSize: 18,
+    color: "gray"
+  },
+  finishedDeckText: {
+    marginVertical: 5,
+    fontSize: 14,
     color: "gray"
   },
   bg: {
@@ -195,12 +200,12 @@ export default class App extends React.Component {
               flipVertical={false}
               flip={false}
             >
-              <View style={styles.card}>
+              <ScrollView contentContainerStyle={styles.card}>
                 <Text style={styles.label}>{card.front}</Text>
-              </View>
-              <View style={styles.card}>
+              </ScrollView>
+              <ScrollView contentContainerStyle={styles.card}>
                 <Text style={styles.label}>{card.back}</Text>
-              </View>
+              </ScrollView>
             </FlipCard>
           )}
         />
@@ -215,7 +220,10 @@ export default class App extends React.Component {
             ]}
           >
             <MaterialCommunity name="cards-outline" size={90} color="#999" />
-            <Text style={styles.noMoreCardsText}> No more cards... </Text>
+            <Text style={styles.congratulationsText}> Congratulations! </Text>
+            <Text style={styles.finishedDeckText}>
+              You have finished this deck for now.
+            </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <View style={styles.backButton}>
                 <MaterialCommunity
