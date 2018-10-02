@@ -62,7 +62,7 @@ const DecksList = props => {
             <View style={styles.item}>
               <View style={styles.textContainer}>
                 <Text numberOfLines={1} style={styles.frontText}>
-                  {item.front}
+                  {item.front.text}
                 </Text>
                 <Text numberOfLines={1} style={styles.infoText}>
                   {`step: 0  next: 5 day`}

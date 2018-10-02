@@ -2,6 +2,7 @@ import filter from "lodash/filter";
 
 import {
   SHOW_DECK,
+  REJECT_CARD,
   REMOVE_DECK_SUCCEEDED,
   ADD_CARD_SUCCEEDED,
   ADD_DECK_SUCCEEDED
@@ -27,6 +28,12 @@ export default function(state = initialState, action) {
       return { ...state, list: [...decksList, action.payload] };
     case SHOW_DECK:
       return { ...state, current: action.payload };
+    case REJECT_CARD:
+      currentDeck.cards[action.payload.index] = action.payload.newCard;
+      return {
+        ...state,
+        current: { ...currentDeck }
+      };
     case REMOVE_DECK_SUCCEEDED:
       return {
         ...state,

@@ -6,6 +6,8 @@ export const SHOW_DECK = "SHOW_DECK";
 export const ADD_CARD = "ADD_CARD";
 export const ADD_CARD_SUCCEEDED = "ADD_CARD_SUCCEEDED";
 
+export const REJECT_CARD = "REJECT_CARD";
+
 export const REMOVE_DECK = "REMOVE_DECK";
 export const REMOVE_DECK_SUCCEEDED = "REMOVE_DECK_SUCCEEDED";
 
@@ -27,5 +29,10 @@ export const addCard = (deckId, payload) => ({
 
 export const removeDeck = payload => ({
   type: REMOVE_DECK,
+  payload
+});
+
+export const rejectCard = payload => ({
+  type: REJECT_CARD,
   payload
 });

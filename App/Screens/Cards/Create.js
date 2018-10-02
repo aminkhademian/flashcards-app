@@ -49,31 +49,52 @@ const styles = StyleSheet.create({
 
 class CreateDeck extends React.Component {
   state = {
-    front: null,
-    back: null
+    front: {
+      text: null,
+      images: []
+    },
+    back: {
+      text: null,
+      images: []
+    }
   };
 
   handleChangeTextInput = (name, text) => {
-    this.setState({ [name]: text });
+    this.setState({
+      [name]: {
+        images: [],
+        text
+      }
+    });
   };
 
   createCard = () => {
     const { id, addCardAction, navigation } = this.props;
     const { front, back } = this.state;
-    const cardToBeSaved = { front, back, id: UUID() };
+    const cardToBeSaved = {
+      back,
+      front,
+      step: 0,
+      id: UUID(),
+      isDone: false,
+      countRejected: 0,
+      nextReviewAt: Date.now()
+    };
     addCardAction(id, cardToBeSaved);
     navigation.goBack();
   };
 
   render() {
     const { front, back } = this.state;
-    const disabledCreateCardButton = !front || !back;
+    const disabledCreateCardButton = !front.text || !back.text;
+    console.log(front.text);
+    console.log(back.text);
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <TextInput
-              value={front}
+              value={front.text}
               style={styles.textInput}
               placeholder="Front"
               underlineColorAndroid="transparent"
@@ -81,7 +102,7 @@ class CreateDeck extends React.Component {
             />
             <View style={styles.line} />
             <TextInput
-              value={back}
+              value={back.text}
               style={styles.textInput}
               placeholder="Back"
               underlineColorAndroid="transparent"

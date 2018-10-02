@@ -13,7 +13,11 @@ import FlipCard from "react-native-flip-card";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { rejectCard } from "App/Store/decks/actions";
 import Button from "App/Screens/Cards/Play/button";
+import review from "App/Screens/Cards/Play/reviewFunc";
 
 const { width, height } = Dimensions.get("window");
 
@@ -97,9 +101,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class App extends React.Component {
+class PlayCards extends React.Component {
   static propTypes = {
     cards: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    rejectCardAction: PropTypes.func.isRequired,
     navigation: PropTypes.shape({}).isRequired
   };
 
@@ -150,6 +155,19 @@ export default class App extends React.Component {
     ]).start();
   };
 
+  handleCardReview = (status, index) => {
+    const { rejectCardAction, cards } = this.props;
+    switch (status) {
+      case "reject":
+        review.reject(cards[index], newCard => {
+          rejectCardAction({ newCard, index });
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const { cards, navigation } = this.props;
     const {
@@ -189,6 +207,7 @@ export default class App extends React.Component {
           }}
           onSwipedAborted={() => this.handleSwiping(0)}
           onSwiped={() => this.handleSwiping(0)}
+          onSwipedLeft={index => this.handleCardReview("reject", index)}
           onSwiping={x => this.handleSwiping(x)}
           onSwipedAll={() => this.handleSwipedAll()}
           renderCard={card => (
@@ -201,10 +220,10 @@ export default class App extends React.Component {
               flip={false}
             >
               <ScrollView contentContainerStyle={styles.card}>
-                <Text style={styles.label}>{card.front}</Text>
+                <Text style={styles.label}>{card.front.text}</Text>
               </ScrollView>
               <ScrollView contentContainerStyle={styles.card}>
-                <Text style={styles.label}>{card.back}</Text>
+                <Text style={styles.label}>{card.back.text}</Text>
               </ScrollView>
             </FlipCard>
           )}
@@ -276,3 +295,16 @@ export default class App extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      rejectCardAction: rejectCard
+    },
+    dispatch
+  );
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(PlayCards);
