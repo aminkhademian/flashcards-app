@@ -15,9 +15,9 @@ import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { rejectCard } from "App/Store/decks/actions";
+import { editCard } from "App/Store/decks/actions";
 import Button from "App/Screens/Cards/Play/button";
-import review from "App/Screens/Cards/Play/reviewFunc";
+import cardReview from "App/Screens/Cards/Play/reviewFunc";
 
 const { width, height } = Dimensions.get("window");
 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 class PlayCards extends React.Component {
   static propTypes = {
     cards: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    rejectCardAction: PropTypes.func.isRequired,
+    editCardAction: PropTypes.func.isRequired,
     navigation: PropTypes.shape({}).isRequired
   };
 
@@ -115,6 +115,11 @@ class PlayCards extends React.Component {
     translateY: new Animated.Value(0),
     noMoreScale: new Animated.Value(1.1)
   };
+
+  componentWillMount() {
+    const { cards } = this.props;
+    if (cards.length === 0) this.handleSwipedAll();
+  }
 
   handleSwiping = x => {
     if (x > 0) {
@@ -132,40 +137,37 @@ class PlayCards extends React.Component {
       opacityToHide,
       opacityToShow,
       translateY,
-      noMoreScale
+      noMoreScale,
+      swipedAll
     } = this.state;
-    this.setState({ swipedAll: true });
-    Animated.parallel([
-      Animated.timing(opacityToHide, {
-        toValue: 0,
-        duration: 200
-      }),
-      Animated.timing(opacityToShow, {
-        toValue: 1,
-        duration: 200
-      }),
-      Animated.timing(noMoreScale, {
-        toValue: 1,
-        duration: 200
-      }),
-      Animated.timing(translateY, {
-        toValue: -50,
-        duration: 200
-      })
-    ]).start();
+    if (!swipedAll) {
+      this.setState({ swipedAll: true });
+      Animated.parallel([
+        Animated.timing(opacityToHide, {
+          toValue: 0,
+          duration: 200
+        }),
+        Animated.timing(opacityToShow, {
+          toValue: 1,
+          duration: 200
+        }),
+        Animated.timing(noMoreScale, {
+          toValue: 1,
+          duration: 200
+        }),
+        Animated.timing(translateY, {
+          toValue: -50,
+          duration: 200
+        })
+      ]).start();
+    }
   };
 
   handleCardReview = (status, index) => {
-    const { rejectCardAction, cards } = this.props;
-    switch (status) {
-      case "reject":
-        review.reject(cards[index], newCard => {
-          rejectCardAction({ newCard, index });
-        });
-        break;
-      default:
-        break;
-    }
+    const { editCardAction, cards } = this.props;
+    cardReview[status](cards[index], newCard => {
+      editCardAction(newCard);
+    });
   };
 
   render() {
@@ -208,6 +210,7 @@ class PlayCards extends React.Component {
           onSwipedAborted={() => this.handleSwiping(0)}
           onSwiped={() => this.handleSwiping(0)}
           onSwipedLeft={index => this.handleCardReview("reject", index)}
+          onSwipedRight={index => this.handleCardReview("accept", index)}
           onSwiping={x => this.handleSwiping(x)}
           onSwipedAll={() => this.handleSwipedAll()}
           renderCard={card => (
@@ -299,7 +302,7 @@ class PlayCards extends React.Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      rejectCardAction: rejectCard
+      editCardAction: editCard
     },
     dispatch
   );

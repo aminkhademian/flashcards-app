@@ -7,7 +7,7 @@ import {
   View
 } from "react-native";
 import PropTypes from "prop-types";
-
+import moment from "moment";
 import MaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons";
 
 const styles = StyleSheet.create({
@@ -39,6 +39,12 @@ const styles = StyleSheet.create({
   }
 });
 
+const handleIconColor = card => {
+  if (card.nextReviewAt >= Date.now() && card.step > 0) return "#3ed66f";
+  if (card.nextReviewAt <= Date.now() && card.step > 0) return "#f7cb1d";
+  return "#dadada";
+};
+
 const DecksList = props => {
   const { cards } = props;
   return (
@@ -49,12 +55,21 @@ const DecksList = props => {
       showsVerticalScrollIndicator={false}
       renderItem={({ item }) => (
         <View style={styles.container}>
-          <MaterialCommunity
-            style={styles.iconCheck}
-            name="check"
-            color="#dadada"
-            size={16}
-          />
+          {item.isDone ? (
+            <MaterialCommunity
+              style={styles.iconCheck}
+              name="check-all"
+              color="#3ed66f"
+              size={16}
+            />
+          ) : (
+            <MaterialCommunity
+              style={styles.iconCheck}
+              name="check"
+              color={handleIconColor(item)}
+              size={16}
+            />
+          )}
           <TouchableOpacity
             style={{ flex: 1 }}
             onPress={() => console.log(item.id)}
@@ -65,7 +80,16 @@ const DecksList = props => {
                   {item.front.text}
                 </Text>
                 <Text numberOfLines={1} style={styles.infoText}>
-                  {`step: 0  next: 5 day`}
+                  {item.isDone && `Congratulations ;) this card has complete`}
+                  {!item.isDone &&
+                    `next review ${
+                      item.nextReviewAt <= Date.now()
+                        ? "now"
+                        : `${moment(item.nextReviewAt).to(
+                            Date.now(),
+                            true
+                          )} later`
+                    }`}
                 </Text>
               </View>
               <MaterialCommunity

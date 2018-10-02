@@ -14,6 +14,7 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import CardsList from "App/Components/Cards/List";
 import { removeDeck } from "App/Store/decks/actions";
+import filter from "lodash/filter";
 
 const { width, height } = Dimensions.get("window");
 
@@ -91,6 +92,20 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 14,
     color: "#999"
+  },
+  badge: {
+    top: 3,
+    position: "absolute",
+    height: 14,
+    width: 14,
+    borderRadius: 20,
+    backgroundColor: "#3ed66f",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  badgeCount: {
+    color: "#FFF",
+    fontSize: 9
   }
 });
 
@@ -117,6 +132,10 @@ class ShowDeck extends React.Component {
   render() {
     const { navigation, deck } = this.props;
     const { image, cards, id } = deck;
+    const cardToReview = filter(
+      cards,
+      card => !card.isDone && card.nextReviewAt <= Date.now()
+    );
     return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
@@ -126,7 +145,9 @@ class ShowDeck extends React.Component {
         <View style={styles.cardsContainer}>
           <View style={styles.cardsHeader}>
             <Text>{`All - ${cards.length}`}</Text>
-            <Text>Learning - 0</Text>
+            <Text>
+              {`Learned - ${filter(cards, card => card.isDone).length}`}
+            </Text>
           </View>
           {cards.length > 0 ? (
             <CardsList cards={cards} />
@@ -148,13 +169,22 @@ class ShowDeck extends React.Component {
             <Text style={styles.newText}>new</Text>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate("PlayCards", { cards })}
+            onPress={() =>
+              navigation.navigate("PlayCards", {
+                cards: cardToReview
+              })
+            }
           >
             <MaterialCommunity
               name="play-circle-outline"
               size={40}
               color="#999"
             />
+            {cardToReview.length > 0 && (
+              <View style={styles.badge}>
+                <Text style={styles.badgeCount}>{cardToReview.length}</Text>
+              </View>
+            )}
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.confirmation()}>
             <MaterialCommunity name="delete" size={40} color="#999" />

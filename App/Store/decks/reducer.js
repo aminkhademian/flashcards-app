@@ -1,8 +1,9 @@
 import filter from "lodash/filter";
+import findIndex from "lodash/findIndex";
 
 import {
   SHOW_DECK,
-  REJECT_CARD,
+  EDIT_CARD,
   REMOVE_DECK_SUCCEEDED,
   ADD_CARD_SUCCEEDED,
   ADD_DECK_SUCCEEDED
@@ -28,8 +29,10 @@ export default function(state = initialState, action) {
       return { ...state, list: [...decksList, action.payload] };
     case SHOW_DECK:
       return { ...state, current: action.payload };
-    case REJECT_CARD:
-      currentDeck.cards[action.payload.index] = action.payload.newCard;
+    case EDIT_CARD:
+      currentDeck.cards[
+        findIndex(currentDeck.cards, card => card.id === action.payload.id)
+      ] = action.payload;
       return {
         ...state,
         current: { ...currentDeck }

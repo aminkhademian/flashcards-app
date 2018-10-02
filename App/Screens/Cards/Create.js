@@ -87,8 +87,6 @@ class CreateDeck extends React.Component {
   render() {
     const { front, back } = this.state;
     const disabledCreateCardButton = !front.text || !back.text;
-    console.log(front.text);
-    console.log(back.text);
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
