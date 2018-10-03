@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   card: {
-    width: 300,
-    height: 450,
+    width: width - 60,
+    height: height - 220,
     position: "relative",
     backgroundColor: "#fff",
     alignItems: "center",
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     flex: 1,
     bottom: 0,
     width: "100%",
-    alignItems: "center",
     position: "absolute",
+    alignItems: "center",
     justifyContent: "center"
   },
   buttonContainer: {
@@ -64,8 +64,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   flip: {
-    width: 320,
-    height: 470,
     borderWidth: 0
   },
   noMoreCards: {
@@ -204,6 +202,10 @@ class PlayCards extends React.Component {
             this.SwipeCards = el;
           }}
           cardStyle={{
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+          containerStyle={{
             alignItems: "center",
             justifyContent: "center"
           }}
