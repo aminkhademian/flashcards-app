@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
-
+import ButtonGreen from "App/Components/Button/Green";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import DecksList from "App/Components/Decks/List";
 import { showDeck } from "App/Store/decks/actions";
 
@@ -17,21 +18,6 @@ const styles = StyleSheet.create({
   },
   decks: {
     flex: 1
-  },
-  button: {
-    backgroundColor: "#3ed66f",
-    alignItems: "center",
-    padding: 15,
-    borderRadius: 3,
-    elevation: 4,
-    shadowOpacity: 0.75,
-    shadowRadius: 3,
-    shadowColor: "#3ed66f",
-    shadowOffset: { height: 3, width: 0 },
-    marginHorizontal: 4
-  },
-  buttonText: {
-    color: "#fff"
   },
   emptyContainer: {
     flex: 1,
@@ -69,15 +55,13 @@ const FlashCards = props => {
             <Text style={styles.emptyText}>you have no card yet</Text>
           </View>
         )}
-        <TouchableHighlight
-          style={styles.button}
+        <ButtonGreen
+          text="create a new deck"
+          icon={
+            <Ionicons name="ios-add-circle-outline" size={24} color="#fff" />
+          }
           onPress={() => navigation.navigate("CreateDeck")}
-          underlayColor="#3dce6c"
-        >
-          <View>
-            <Text style={styles.buttonText}>create a new deck</Text>
-          </View>
-        </TouchableHighlight>
+        />
       </View>
     </View>
   );

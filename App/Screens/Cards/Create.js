@@ -92,6 +92,7 @@ class CreateDeck extends React.Component {
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <TextInput
+              multiline
               value={front.text}
               style={styles.textInput}
               placeholder="Front"
@@ -100,6 +101,7 @@ class CreateDeck extends React.Component {
             />
             <View style={styles.line} />
             <TextInput
+              multiline
               value={back.text}
               style={styles.textInput}
               placeholder="Back"
