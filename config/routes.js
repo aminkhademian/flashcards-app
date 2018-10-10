@@ -60,6 +60,7 @@ export default createStackNavigator({
   CreateCard: {
     screen: mapNavigationStateParamsToProps(CreateCard),
     navigationOptions: {
+      headerTransparent: true,
       title: "New Card",
       headerStyle
     }
