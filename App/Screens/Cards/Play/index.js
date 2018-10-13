@@ -51,6 +51,13 @@ const styles = StyleSheet.create({
     fontFamily: "System",
     backgroundColor: "transparent"
   },
+  watermark: {
+    top: 15,
+    left: 15,
+    fontSize: 12,
+    color: "#c1c1c1",
+    position: "absolute"
+  },
   footer: {
     flex: 1,
     bottom: 0,
@@ -227,6 +234,7 @@ class PlayCards extends React.Component {
               flip={false}
             >
               <View style={styles.card}>
+                <Text style={styles.watermark}>FRONT</Text>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{ alignItems: "center" }}
@@ -242,6 +250,7 @@ class PlayCards extends React.Component {
                 </ScrollView>
               </View>
               <View style={styles.card}>
+                <Text style={styles.watermark}>BACK</Text>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{ alignItems: "center" }}
