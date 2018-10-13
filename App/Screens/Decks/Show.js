@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3,
     shadowColor: "#333",
-    shadowOffset: { height: 3, width: 0 }
+    shadowOffset: { height: 3, width: 0 },
+    zIndex: 5
   },
   cardsHeader: {
     height: 50,
@@ -153,7 +154,7 @@ class ShowDeck extends React.Component {
             <CardsList cards={cards} />
           ) : (
             <View style={styles.emptyContainer}>
-              <MaterialCommunity name="cards-outline" size={90} color="#999" />
+              <MaterialCommunity size={90} color="#999" name="cards-outline" />
               <Text style={styles.nothingText}>NOTHING!!</Text>
               <Text style={styles.emptyText}>you have no card yet</Text>
             </View>
@@ -171,7 +172,8 @@ class ShowDeck extends React.Component {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("PlayCards", {
-                cards: cardToReview
+                cards: cardToReview,
+                allCardsCount: cards.length
               })
             }
           >

@@ -12,7 +12,7 @@ import {
   ScrollView,
   TextInput
 } from "react-native";
-import ButtonGreen from "App/Components/Button/Green";
+import ButtonBlue from "App/Components/Button/Blue";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import PickImage from "App/Services/Utilities/PickImage";
 import { connect } from "react-redux";
@@ -172,7 +172,7 @@ class CreateDeck extends React.Component {
           </ScrollView>
         </TouchableWithoutFeedback>
         <View style={styles.buttonContainer}>
-          <ButtonGreen
+          <ButtonBlue
             text="Create Deck"
             icon={
               <FontAwesome name="angle-double-left" size={24} color="#fff" />

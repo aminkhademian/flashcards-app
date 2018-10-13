@@ -50,7 +50,7 @@ export default createStackNavigator({
     screen: mapNavigationStateParamsToProps(PlayCards),
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.cards.length}/${
-        navigation.state.params.cards.length
+        navigation.state.params.allCardsCount
       }`,
       mode: "modal",
       headerTransparent: true,

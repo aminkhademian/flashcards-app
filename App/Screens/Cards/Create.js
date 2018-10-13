@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { addCard } from "App/Store/decks/actions";
-import ButtonGreen from "App/Components/Button/Green";
+import ButtonBlue from "App/Components/Button/Blue";
 import PickImage from "App/Services/Utilities/PickImage";
 import FlipCard from "react-native-flip-card";
 import includes from "lodash/includes";
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 18,
     width: width - 32,
-    marginBottom: 14
+    marginBottom: 8
   }
 });
 
@@ -299,7 +299,7 @@ class CreateDeck extends React.Component {
           </ScrollView>
         </TouchableWithoutFeedback>
         <View style={styles.buttonContainer}>
-          <ButtonGreen
+          <ButtonBlue
             text="Create Card"
             icon={
               <FontAwesome name="angle-double-left" size={24} color="#fff" />

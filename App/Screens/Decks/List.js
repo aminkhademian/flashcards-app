@@ -4,7 +4,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
-import ButtonGreen from "App/Components/Button/Green";
+import ButtonBlue from "App/Components/Button/Blue";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DecksList from "App/Components/Decks/List";
 import { showDeck } from "App/Store/decks/actions";
@@ -52,10 +52,10 @@ const FlashCards = props => {
           <View style={styles.emptyContainer}>
             <Entypo name="archive" size={120} color="#999" />
             <Text style={styles.nothingText}>NOTHING!!</Text>
-            <Text style={styles.emptyText}>you have no card yet</Text>
+            <Text style={styles.emptyText}>you have no deck yet</Text>
           </View>
         )}
-        <ButtonGreen
+        <ButtonBlue
           text="create a new deck"
           icon={
             <Ionicons name="ios-add-circle-outline" size={24} color="#fff" />
