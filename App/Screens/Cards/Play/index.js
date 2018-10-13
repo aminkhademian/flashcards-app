@@ -6,6 +6,7 @@ import {
   Dimensions,
   Animated,
   ScrollView,
+  Image,
   TouchableOpacity
 } from "react-native";
 import SwipeCards from "react-native-deck-swiper";
@@ -45,8 +46,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 25,
-    fontFamily: "System",
     color: "#333",
+    marginVertical: 15,
+    fontFamily: "System",
     backgroundColor: "transparent"
   },
   footer: {
@@ -224,12 +226,36 @@ class PlayCards extends React.Component {
               flipVertical={false}
               flip={false}
             >
-              <ScrollView contentContainerStyle={styles.card}>
-                <Text style={styles.label}>{card.front.text}</Text>
-              </ScrollView>
-              <ScrollView contentContainerStyle={styles.card}>
-                <Text style={styles.label}>{card.back.text}</Text>
-              </ScrollView>
+              <View style={styles.card}>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={{ alignItems: "center" }}
+                >
+                  <Text style={styles.label}>{card.front.text}</Text>
+                  {card.front.image && (
+                    <Image
+                      resizeMode="cover"
+                      style={{ borderRadius: 5 }}
+                      source={{ ...card.front.image }}
+                    />
+                  )}
+                </ScrollView>
+              </View>
+              <View style={styles.card}>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={{ alignItems: "center" }}
+                >
+                  <Text style={styles.label}>{card.back.text}</Text>
+                  {card.back.image && (
+                    <Image
+                      resizeMode="cover"
+                      style={{ borderRadius: 5 }}
+                      source={{ ...card.back.image }}
+                    />
+                  )}
+                </ScrollView>
+              </View>
             </FlipCard>
           )}
         />

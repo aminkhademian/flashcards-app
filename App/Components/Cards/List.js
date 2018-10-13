@@ -2,6 +2,7 @@ import React from "react";
 import {
   FlatList,
   Text,
+  Image,
   StyleSheet,
   TouchableOpacity,
   View
@@ -22,8 +23,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
+  image: {
+    width: 35,
+    height: 35,
+    borderRadius: 3
+  },
   textContainer: {
+    height: 35,
     justifyContent: "space-around"
+  },
+  imageContainer: {
+    alignItems: "center",
+    flexDirection: "row"
   },
   frontText: {
     fontSize: 12,
@@ -70,10 +81,7 @@ const DecksList = props => {
               size={16}
             />
           )}
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => console.log(item.id)}
-          >
+          <TouchableOpacity style={{ flex: 1 }}>
             <View style={styles.item}>
               <View style={styles.textContainer}>
                 <Text numberOfLines={1} style={styles.frontText}>
@@ -92,11 +100,19 @@ const DecksList = props => {
                     }`}
                 </Text>
               </View>
-              <MaterialCommunity
-                name="chevron-right"
-                color="#dadada"
-                size={24}
-              />
+              <View style={styles.imageContainer}>
+                {item.front.image && (
+                  <Image
+                    style={styles.image}
+                    source={{ uri: item.front.image.uri }}
+                  />
+                )}
+                <MaterialCommunity
+                  name="chevron-right"
+                  color="#dadada"
+                  size={24}
+                />
+              </View>
             </View>
           </TouchableOpacity>
         </View>
